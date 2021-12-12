@@ -72,5 +72,3 @@ class stock:
 
     def get_relative_volume(self, num_days):
         return self.get_volume()/self.get_average_volume(num_days)
-
-    
