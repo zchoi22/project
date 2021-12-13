@@ -1,0 +1,12 @@
+volume
+live_price
+52_week_change
+moving_averages (20,50,200)
+average_volume
+float
+shares_shorted
+roe
+pb
+shares_outstanding
+market_cap
+relative_volume
