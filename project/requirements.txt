@@ -1,48 +1,14 @@
-Dependencies for Project outlined below:
+This file is a part of Rapstar, a Zion Choi property.
+See README.md for full details.
 
-Pillow v. 8.3.2
-appdirs v. 1.4.4
-beautifulsoup4 v. 4.9.3
-bs4 v.0.0.1
-certifi 2021.5.30
-charset-normalizer 2.0.4
-colorama 0.4.4
-cssselect 1.1.0
-cycler 0.10.0
-fake-useragent 0.1.11
-feedparser 6.0.8
-idna 3.2
-importlib-metadata 4.8.1
-joblib 1.0.1
-keras 2.6.0 (main)
-kiwisolver 1.3.2
-lxml 4.6.3
-matplotlib 3.4.3 (main)
-numpy 1.21.2
-pandas 1.3.2 (main)
-parse 1.19.0
-pip 21.1.2
-pyee 8.2.2
-pyparsing 2.4.7
-pyppeteer 0.2.6
-pyquery 1.4.3
-python-dateutil 2.8.2
-pytrends 4.7.3
-pytz 2021.1
-requests 2.26.0
-requests-html 0.10.0
-scikit-learn 0.24.2
-scipy 1.7.1 (main)
-setuptools 57.0.0
-sgmllib3k 1.0.0
-six 1.16.0
-sklearn 0.0
-soupsieve 2.2.1
-threadpoolctl 2.2.0
-tqdm 4.62.2
-urllib3 1.26.6
-w3lib 1.22.0
-websockets 9.1
-wheel 0.36.2
-yahoo-fin 0.8.9.1
-zipp 3.5.0
+This project, as licensed under Zion Choi, requires further dependencies. For further setup details, please refer to README.md for full details.
+
+The required dependencies for the virtual environment, under the folder venv, is outlined below:
+
+Package 		Version
+
+pandas 			1.3.5
+matplotlib		3.5.1
+pandas-datareader	0.10.0
+yahoo-fin 		0.8.9.1
+yfinance		0.1.67
