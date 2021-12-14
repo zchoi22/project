@@ -6,9 +6,13 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
+#test method for ui development, literally does nothing
 def doNothing():
     pass
 
+#sets screener, takes in settings and saves
+#the base_screener with given screener name
+#and settings
 def set_screener(settings, screener_name):
     global base_screener
     for i in range(len(settings)):
@@ -16,15 +20,22 @@ def set_screener(settings, screener_name):
     base_screener.save_screener(screener_name)
     clear()
 
+#prompts for user input, takes name => transforms into csv location
+#if there exists a file, the base_screener is set to those settings
 def import_screener():
     global base_screener
     answer = simpledialog.askstring("Input", "Enter a screener name: ", parent=root)
     screener_name = '..\\project\\main\\screener\\screeners\\'+ answer
     base_screener = sc(False, screener_name)
 
+#runs screener, refer to screener.py for details
 def run_screener():
     base_screener.run_screener()
 
+#set_settings, transforms input from dropdown menus
+#into appropriate screener settings data. Please refer
+#to etiher screener.py or README.md for further explanation
+#regarding the format of this data.
 def set_settings(*args):
     answer = simpledialog.askstring("Input", "Enter a screener name: ", parent=root)
     screener_name = '..\\project\\main\\screener\\screeners\\'+ answer
@@ -80,7 +91,9 @@ def set_settings(*args):
     
     set_screener(settings, screener_name)
 
-
+#create settings makes a label and a drop down menu for each feature to be checked.
+#the options are then sent to set_settings where they are transformed into readable
+#data by the screener class.
 def create_settings():
     price_frame = Frame(root)
     price_frame.pack(padx=5, pady=15, side=TOP, anchor=NW)
@@ -175,6 +188,9 @@ def create_settings():
                                                                    sma20_var.get(), sma50_var.get(), sma200_var.get()))
     button.pack(padx=5, pady=15, side=TOP, anchor=NW)
 
+#advanced graph allows multiple features to be plotted. On a while loop, this asks
+#for features, when input is canceled then a button is prompted. Takes features and
+#runs display_graph below
 def advanced_graph():
     features = []
     while True:
@@ -186,6 +202,9 @@ def advanced_graph():
     button = Button(root, text='Done', command = lambda : display_graph(features))
     button.pack()
 
+#display graph uses matplotlib and tkinter to visualize data. Always shows adj. close data.
+# if there are args, then this looks for them (right now only works for values in keys or
+# SMAs) and adds them to the plot. The graph is then packed and displayed.
 def display_graph(*args):
     df, ticker = ticker_search()
     data = stock(ticker)
@@ -207,10 +226,13 @@ def display_graph(*args):
 
     line.get_tk_widget().pack(side=LEFT, fill=BOTH)
 
+#format data returns a dataframe of only the date and the adj. close value
 def format_data(data):
     df = data[['Date','Adj Close']].copy()
     return df
 
+#ticker search prompts user for a ticker name, runs the stock class (refer to stock.py for
+# further details), and formats the data using above method.
 def ticker_search():
     answer = simpledialog.askstring("Input", "Enter a ticker below: ", parent = root)
     if answer is not None:
@@ -218,11 +240,13 @@ def ticker_search():
         return format_data(ticker.get_data().reset_index()), answer
     print('Error: Ticker not entered.')
 
+#using method below, find the widgets and removes them from root
 def clear():
     list = return_widgets(root)
     for item in list:
         item.pack_forget()
 
+#finds all widgets on the tkinter window
 def return_widgets(window):
     list = window.winfo_children()
     for item in list:
@@ -230,6 +254,7 @@ def return_widgets(window):
             list.extend(item.winfo_children())
     return list
 
+#main program
 if __name__ == '__main__':
     #configuring gui window with tkinter
     root = Tk()
@@ -244,21 +269,23 @@ if __name__ == '__main__':
     title = Label(root, text = "Welcome to Rapstar!")
     title.pack()
 
+    #Finance menu, holds chart and advanced chart, as well as exit
     mb = Menu(root)
     financemenu = Menu(mb, tearoff = 0)
     financemenu.add_command(label = 'Create Chart', command=display_graph)
     financemenu.add_command(label='Advanced Chart', command=advanced_graph)
-   # financemenu.add_command(label = 'Screener', command=donothing)
     financemenu.add_separator()
     financemenu.add_command(label = 'Exit', command = root.quit)
     mb.add_cascade(label = 'Finance', menu = financemenu)
 
+    #Screener menu, set settings, import a screener, or run a screener
     screenermenu = Menu(mb, tearoff = 0)
     screenermenu.add_command(label = 'Set Screener', command=create_settings)
     screenermenu.add_command(label = 'Import Screener', command=import_screener)
     screenermenu.add_command(label = 'Run Screener', command=run_screener)
     mb.add_cascade(label = 'Screener', menu = screenermenu)
 
+    #edit method holds the clear function
     editmenu = Menu(mb, tearoff=0)
     editmenu.add_command(label='Clear', command=clear)
     mb.add_cascade(label = 'Edit', menu = editmenu)

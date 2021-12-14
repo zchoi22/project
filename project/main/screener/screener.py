@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 from yahoo_fin.stock_info import tickers_sp500
 
-
+#screener class, refer to README.md for further details
 class screener:
 
-    #initialize with settings (empty), and a reference to the format
+    #initialize with settings (empty), a request for update (boolean), and an optional filename
     def __init__(self, update, *args):
         self.settings = pd.Series([np.nan for i in range(7)])
         self.format = {'price': 0, 'volume': 1, '52_week_high': 2, '52_week_low': 3,
@@ -22,6 +22,7 @@ class screener:
     def get_settings(self):
         return self.settings
 
+    #getter for format => refers to the dictionary for setting options
     def get_format(self):
         return self.format
 
@@ -40,11 +41,16 @@ class screener:
     def save_screener(self, screener_name):
         self.settings.to_csv(screener_name+'.csv', header=None, index=False)
 
+    #checks the compare value, and uses it to compare the two values
+    #a compare value of 1 checks if value1 is less than value2, anything
+    #else checks the opposite. Refer to README.md for further details.
     def check_value(self, value1, value2, compare):
         if compare == '1':
             return value1 < value2
         return value1 > value2
 
+    #gets the values to compare for smas, 0=price, 1=20SMA, 2=50SMA, 3=200SMA
+    #refers to simple moving averages, please refer to README.md for further detail
     def sma_setting_to_value(self, setting, stock):
         values = list(setting)
         for i in range(len(values)):
@@ -58,13 +64,17 @@ class screener:
                 values[i] = stock.get_sma_200()
         return values[0], values[1]
 
+    #runs the screener, stores appropriate tickers into stocks list, and prints them
     def run_screener(self):
         stocks = []
 
+        #if an update was requested when initialized, updates each stock in the S&P 500
         if self.update:
             for ticker in self.tickers:
                s(ticker, 'update_data')
 
+        #for each ticker, checks the screener settings and uses compare values to check if
+        #a specified stock matches the requirements
         for ticker in self.tickers:
             stock = s(ticker)
 
@@ -106,4 +116,6 @@ class screener:
             stocks.append(ticker)
             print(ticker)
 
+        #returns list of stocks, though useless now, can provide foundation for further UI
+        #implementation
         return stocks
