@@ -1,4 +1,4 @@
-from main.stock.stock import stock as s
+from project.main.stock.stock import stock as s
 import pandas as pd
 import numpy as np
 from yahoo_fin.stock_info import tickers_sp500

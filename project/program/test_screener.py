@@ -1,4 +1,4 @@
-from main.screener.screener import screener as sc
+from project.main.screener.screener import screener as sc
 import os
 
 test = sc(False)
