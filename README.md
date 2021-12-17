@@ -6,7 +6,7 @@ This project is a Zion Choi property, as licensed under Zion Choi Code Practices
 2. [Usage](#Usage)
 3. [Installation](#installation)
 4. [Important Files](#Important-Files)
-5. [Remaining Bugs/Further Development] (#Bugs/Further_Development)
+5. [Remaining Bugs/Further Development](#Bugs/Further_Development)
 
 ### General Info
 Rapstar, as licensed under Zion Choi Code Practices, requires a virtual environment to execute. If you are using PyCharm, please use a Virtualenv environment for library imports. If not, good luck, buddy. Please refer to the requirements.txt document for the required dependencies.
