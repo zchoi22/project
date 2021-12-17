@@ -25,6 +25,7 @@ How to install:
 3. Open main.py, and run to start the UI.
 4. If run/setup correctly, it should look like the following:
 
+![better run]https://github.com/zchoi22/project/blob/master/start_up.JPG
 
 ### Important Files
 Here are the following important files:
