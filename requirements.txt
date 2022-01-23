@@ -12,3 +12,6 @@ matplotlib		3.5.1
 pandas-datareader	0.10.0
 yahoo-fin 		0.8.9.1
 yfinance		0.1.67
+keras			2.7.0
+sklearn			0.0
+tensorflow 		2.7.0
