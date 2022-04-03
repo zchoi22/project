@@ -8,15 +8,15 @@ yf.pdr_override()
 class stock:
 
     #inputs = ticker, uses ticker to grab stats
-    def __init__(self, ticker, *args):
+    def __init__(self, ticker, filepath='..\\project\\main\\stock\\historical_data\\', update=False):
         self.ticker = ticker.upper()
-        self.filepath = '..\\project\\main\\stock\\historical_data\\'+self.ticker+'.csv'
+        self.filepath = filepath+self.ticker+'.csv'
         self.start_date = datetime.now() - timedelta(days=365)
         self.end_date = date.today()
         #if args is empty, will try to set the data by reading from appropriate csv file
-        #if there is now csv file, initialization will build a new file then set data to
+        #if there is no csv file, initialization will build a new file then set data to
         #the historical data from that file
-        if args == ():
+        if update==False:
             try:
                 self.format_data()
             except:
