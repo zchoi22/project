@@ -2,7 +2,9 @@ from pandas_datareader.data import get_data_yahoo as get_data
 import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta, date
+from pytrends.request import TrendReq
 yf.pdr_override()
+import numpy as np
 
 
 class stock:
@@ -12,7 +14,7 @@ class stock:
         self.ticker = ticker.upper()
         self.filepath = filepath+self.ticker+'.csv'
         self.start_date = datetime.now() - timedelta(days=365)
-        self.end_date = date.today()
+        self.end_date = date.today() - timedelta(days=1)
         #if args is empty, will try to set the data by reading from appropriate csv file
         #if there is no csv file, initialization will build a new file then set data to
         #the historical data from that file
@@ -47,7 +49,7 @@ class stock:
             last_date = self.str_to_date(self.data.reset_index()['Date'].iloc[-1])
             end_date = self.end_date
             if datetime.now().weekday() >= 5:
-                end_date = datetime.now() - timedelta(days = (end_date.weekday()-4))
+                end_date = datetime.now() - timedelta(days = (end_date.weekday()-5))
             if last_date == end_date:
                 print('working')
                 pass
@@ -77,6 +79,13 @@ class stock:
     def get_price(self):
         return self.data['Adj Close'][-1]
 
+    #return standard deviation
+    def get_standard_deviation(self, days):
+        return self.data['Adj Close'].rolling(window=days).std()
+
+    def get_relative_volume(self, days):
+        return self.data['Volume'] / self.data['Volume'].rolling(window=days).mean()
+
     #getter for 20SMA using get_sma method
     def get_sma_20(self):
         return self.get_sma(20)[-1]
@@ -102,3 +111,20 @@ class stock:
     #getter for volume, grabs last index of volume column
     def get_volume(self):
         return self.data['Volume'][-1]
+
+    def get_google_trends(self):
+        ticker_dataset = TrendReq()
+        query = self.ticker + 'stock'
+        ticker_dataset.build_payload(kw_list=[query])
+        interest_over_time = ticker_dataset.interest_over_time()
+        interest_over_time = pd.DataFrame({'date' : [date.date() for date in interest_over_time[query].index],
+                                           'search_freq' : [x for x in interest_over_time[query]]})
+        last_date = self.str_to_date(self.data.reset_index()['Date'].iloc[-1])
+
+        interest_over_time = interest_over_time[interest_over_time.date < last_date]
+        interest_over_time = interest_over_time[interest_over_time.date > self.start_date.date()]
+        # for date in interest_over_time['date']:
+        #     if date > last_date or date < self.start_date.date():
+        #         interest_over_time.drop(interest_over_time[interest_over_time['date'] == date].index)
+
+        return interest_over_time
