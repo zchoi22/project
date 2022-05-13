@@ -112,6 +112,7 @@ class stock:
     def get_volume(self):
         return self.data['Volume'][-1]
 
+    #getter for dataframe of google trends data
     def get_google_trends(self):
         ticker_dataset = TrendReq()
         query = self.ticker + 'stock'
